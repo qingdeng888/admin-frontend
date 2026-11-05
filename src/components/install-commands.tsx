@@ -127,6 +127,9 @@ export const InstallCommandsMenu = forwardRef<HTMLButtonElement, InstallCommands
     },
 )
 
+// 国内环境加速: 自建 GitHub 代理前缀 (拼接在完整 GitHub URL 之前)
+const GH_PROXY = "https://raw.xiaoy.de/"
+
 const generateCommand = (
     type: number,
     { install_host, tls }: ModelSetting,
@@ -156,10 +159,10 @@ const generateCommand = (
     switch (type) {
         case OSTypes.Linux:
         case OSTypes.macOS: {
-            return `curl -L https://raw.githubusercontent.com/qingdeng888/nzagent/main/script/install.sh -o qingnz.sh && chmod +x qingnz.sh && env ${env} ./qingnz.sh`
+            return `curl -L ${GH_PROXY}https://raw.githubusercontent.com/qingdeng888/nzagent/main/script/install.sh -o qingnz.sh && chmod +x qingnz.sh && env ${env} ./qingnz.sh`
         }
         case OSTypes.Windows: {
-            return `${env_win} [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12;set-ExecutionPolicy RemoteSigned;Invoke-WebRequest https://raw.githubusercontent.com/qingdeng888/nzagent/main/script/install.ps1 -OutFile C:\\qingnz-install.ps1;powershell.exe C:\\qingnz-install.ps1`
+            return `${env_win} [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12;set-ExecutionPolicy RemoteSigned;Invoke-WebRequest ${GH_PROXY}https://raw.githubusercontent.com/qingdeng888/nzagent/main/script/install.ps1 -OutFile C:\\qingnz-install.ps1;powershell.exe C:\\qingnz-install.ps1`
         }
         default: {
             throw new Error(`Unknown OS: ${type}`)
