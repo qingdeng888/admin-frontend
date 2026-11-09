@@ -144,6 +144,7 @@ const generateCommand = (
         `NZ_SERVER=${install_host}`,
         `NZ_TLS=${tls || false}`,
         `NZ_CLIENT_SECRET=${agent_secret}`,
+        `NZ_TEMPERATURE=true`,
     ]
     if (uuid) envParts.push(`NZ_UUID=${uuid}`)
     const env = envParts.join(" ")
@@ -152,6 +153,7 @@ const generateCommand = (
         `$env:NZ_SERVER="${install_host}";`,
         `$env:NZ_TLS="${tls || false}";`,
         `$env:NZ_CLIENT_SECRET="${agent_secret}";`,
+        `$env:NZ_TEMPERATURE="true";`,
     ]
     if (uuid) envWinParts.push(`$env:NZ_UUID="${uuid}";`)
     const env_win = envWinParts.join("")
